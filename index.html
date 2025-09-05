@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cam Carter</title>
+  <title>Rhythm CRM | Cam Carter</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto+Slab:wght@300;400;700&display=swap" rel="stylesheet">
@@ -13,16 +13,16 @@
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <style>
     :root {
-      --primary: #7e22ce;
-      --secondary: #f0abfc;
-      --accent: #c084fc;
-      --surface: #1e1b4b;
-      --background: #0f172a;
+      --primary: #1e88e5;
+      --secondary: #64b5f6;
+      --accent: #0d47a1;
+      --surface: #212121;
+      --background: #121212;
     }
     body {
       font-family: 'Montserrat', sans-serif;
-      background: linear-gradient(135deg, var(--background) 0%, #1e293b 100%);
-      color: #e2e8f0;
+      background: linear-gradient(135deg, var(--background) 0%, #1a1a1a 100%);
+      color: #e0e0e0;
       min-height: 100vh;
     }
     .material-symbols-outlined {
@@ -31,7 +31,7 @@
     .nav-link {
       background: transparent;
       border: none;
-      color: #cbd5e1;
+      color: #b0b0b0;
       font-weight: 500;
       padding: 0.75rem 1.5rem;
       border-radius: 9999px;
@@ -39,22 +39,22 @@
       cursor: pointer;
     }
     .nav-link:hover, .nav-link.active {
-      background: rgba(126, 34, 206, 0.2);
+      background: rgba(30, 136, 229, 0.2);
       color: var(--secondary);
     }
     .card {
-      background: rgba(30, 27, 75, 0.6);
+      background: rgba(33, 33, 33, 0.8);
       backdrop-filter: blur(10px);
-      border: 1px solid rgba(192, 132, 252, 0.2);
+      border: 1px solid rgba(30, 136, 229, 0.2);
       border-radius: 16px;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     .card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(126, 34, 206, 0.3);
+      box-shadow: 0 10px 25px rgba(30, 136, 229, 0.3);
     }
     .btn-primary {
-      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
       border: none;
       border-radius: 12px;
       padding: 0.8rem 1.8rem;
@@ -63,13 +63,13 @@
     }
     .btn-primary:hover {
       transform: scale(1.05);
-      box-shadow: 0 5px 15px rgba(192, 132, 252, 0.4);
+      box-shadow: 0 5px 15px rgba(30, 136, 229, 0.4);
     }
-    .stage-new { color: #60a5fa; }
-    .stage-contact { color: #fbbf24; }
-    .stage-negotiate { color: #a78bfa; }
-    .stage-booked { color: #34d399; }
-    .stage-lost { color: #f87171; }
+    .stage-new { color: #4fc3f7; }
+    .stage-contact { color: #ffd54f; }
+    .stage-negotiate { color: #7986cb; }
+    .stage-booked { color: #81c784; }
+    .stage-lost { color: #e57373; }
     #map { 
       height: 500px; 
       border-radius: 16px;
@@ -79,15 +79,15 @@
       filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
     }
     .stat-card {
-      background: linear-gradient(145deg, rgba(30, 27, 75, 0.8), rgba(15, 23, 42, 0.8));
+      background: linear-gradient(145deg, rgba(33, 33, 33, 0.8), rgba(18, 18, 18, 0.8));
     }
     .pulse {
       animation: pulse 2s infinite;
     }
     @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(124, 58, 237, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0); }
+      0% { box-shadow: 0 0 0 0 rgba(30, 136, 229, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(30, 136, 229, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(30, 136, 229, 0); }
     }
     .section {
       display: none;
@@ -101,28 +101,28 @@
       to { opacity: 1; transform: translateY(0); }
     }
     .form-input {
-      background: rgba(30, 27, 75, 0.4);
-      border: 1px solid rgba(192, 132, 252, 0.2);
+      background: rgba(33, 33, 33, 0.4);
+      border: 1px solid rgba(30, 136, 229, 0.2);
       border-radius: 12px;
       padding: 0.75rem 1rem;
-      color: #e2e8f0;
+      color: #e0e0e0;
       width: 100%;
       transition: all 0.3s ease;
     }
     .form-input:focus {
       outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(192, 132, 252, 0.2);
+      border-color: var(--secondary);
+      box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.2);
     }
     .form-label {
       display: block;
       margin-bottom: 0.5rem;
       font-weight: 500;
-      color: #cbd5e1;
+      color: #b0b0b0;
     }
     .add-btn {
-      background: rgba(126, 34, 206, 0.2);
-      border: 1px dashed rgba(192, 132, 252, 0.4);
+      background: rgba(30, 136, 229, 0.2);
+      border: 1px dashed rgba(100, 181, 246, 0.4);
       color: var(--secondary);
       border-radius: 8px;
       padding: 0.5rem 1rem;
@@ -133,10 +133,10 @@
       margin-top: 0.5rem;
     }
     .add-btn:hover {
-      background: rgba(126, 34, 206, 0.3);
+      background: rgba(30, 136, 229, 0.3);
     }
     .file-upload {
-      border: 2px dashed rgba(192, 132, 252, 0.3);
+      border: 2px dashed rgba(100, 181, 246, 0.3);
       border-radius: 12px;
       padding: 2rem;
       text-align: center;
@@ -144,11 +144,11 @@
       transition: all 0.3s ease;
     }
     .file-upload:hover {
-      border-color: var(--accent);
-      background: rgba(126, 34, 206, 0.1);
+      border-color: var(--secondary);
+      background: rgba(30, 136, 229, 0.1);
     }
     .gemini-response {
-      background: rgba(30, 27, 75, 0.4);
+      background: rgba(33, 33, 33, 0.4);
       border-radius: 12px;
       padding: 1.5rem;
       margin-top: 1rem;
@@ -166,14 +166,14 @@
     .tab-btn {
       background: transparent;
       border: none;
-      color: #cbd5e1;
+      color: #b0b0b0;
       padding: 0.75rem 1.5rem;
       border-radius: 8px;
       cursor: pointer;
       transition: all 0.3s ease;
     }
     .tab-btn.active {
-      background: rgba(126, 34, 206, 0.2);
+      background: rgba(30, 136, 229, 0.2);
       color: var(--secondary);
     }
     .tab-content {
@@ -189,14 +189,14 @@
     .prospect-table th {
       text-align: left;
       padding: 0.75rem;
-      border-bottom: 1px solid rgba(192, 132, 252, 0.2);
+      border-bottom: 1px solid rgba(100, 181, 246, 0.2);
     }
     .prospect-table td {
       padding: 0.75rem;
-      border-bottom: 1px solid rgba(192, 132, 252, 0.1);
+      border-bottom: 1px solid rgba(100, 181, 246, 0.1);
     }
     .csv-upload-area {
-      border: 2px dashed rgba(192, 132, 252, 0.3);
+      border: 2px dashed rgba(100, 181, 246, 0.3);
       border-radius: 12px;
       padding: 2rem;
       text-align: center;
@@ -205,18 +205,18 @@
       margin-bottom: 1.5rem;
     }
     .csv-upload-area:hover {
-      border-color: var(--accent);
-      background: rgba(126, 34, 206, 0.1);
+      border-color: var(--secondary);
+      background: rgba(30, 136, 229, 0.1);
     }
   </style>
 </head>
 <body class="min-h-screen flex flex-col">
   <!-- Navigation -->
-  <header class="sticky top-0 z-50 bg-[#0f172a]/90 backdrop-blur-md border-b border-indigo-900/50">
+  <header class="sticky top-0 z-50 bg-[#121212]/90 backdrop-blur-md border-b border-blue-900/50">
     <div class="container mx-auto px-4 py-3 flex justify-between items-center">
       <div class="flex items-center space-x-2">
-        <span class="material-symbols-outlined text-purple-400 text-3xl">music_note</span>
-        <h1 class="text-2x4 font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400">Cam Carter</h1>
+        <span class="material-symbols-outlined text-blue-400 text-3xl">music_note</span>
+        <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">Rhythm CRM</h1>
       </div>
       
       <nav class="hidden md:flex space-x-1">
@@ -230,11 +230,11 @@
       
       <div class="flex items-center space-x-4">
         <div class="relative">
-          <span class="material-symbols-outlined text-purple-300 cursor-pointer">notifications</span>
+          <span class="material-symbols-outlined text-blue-300 cursor-pointer">notifications</span>
           <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full pulse"></span>
         </div>
         <div class="flex items-center space-x-2 cursor-pointer">
-          <div class="w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+          <div class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
             <span class="text-white font-bold">CC</span>
           </div>
           <span class="font-medium">Cam Carter</span>
@@ -250,7 +250,7 @@
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
         <div>
           <h2 class="text-3xl font-bold">Welcome back, Cam</h2>
-          <p class="text-indigo-200">Track, manage, and grow your music career from Memphis to LA</p>
+          <p class="text-blue-200">Track, manage, and grow your rap career from Memphis to LA</p>
         </div>
         <div class="mt-4 md:mt-0">
           <button class="btn-primary flex items-center" onclick="showSection('prospects')">
@@ -262,27 +262,27 @@
 
       <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         <div class="stat-card p-6 rounded-xl flex flex-col items-center">
-          <div class="text-3xl font-bold text-purple-400">24</div>
-          <div class="text-indigo-200 mt-2">Active Prospects</div>
+          <div class="text-3xl font-bold text-blue-400">24</div>
+          <div class="text-blue-200 mt-2">Active Prospects</div>
         </div>
         <div class="stat-card p-6 rounded-xl flex flex-col items-center">
           <div class="text-3xl font-bold text-amber-300">8</div>
-          <div class="text-indigo-200 mt-2">Upcoming Gigs</div>
+          <div class="text-blue-200 mt-2">Upcoming Gigs</div>
         </div>
         <div class="stat-card p-6 rounded-xl flex flex-col items-center">
-          <div class="text-3xl font-bold text-emerald-400">12.4K</div>
-          <div class="text-indigo-200 mt-2">New Followers</div>
+          <div class="text-3xl font-bold text-cyan-400">12.4K</div>
+          <div class="text-blue-200 mt-2">New Followers</div>
         </div>
         <div class="stat-card p-6 rounded-xl flex flex-col items-center">
           <div class="text-3xl font-bold text-rose-400">3</div>
-          <div class="text-indigo-200 mt-2">Pending Contracts</div>
+          <div class="text-blue-200 mt-2">Pending Contracts</div>
         </div>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div class="card p-6">
           <h3 class="text-xl font-bold mb-4 flex items-center">
-            <span class="material-symbols-outlined mr-2 text-purple-400">trending_up</span>
+            <span class="material-symbols-outlined mr-2 text-blue-400">trending_up</span>
             Engagement Trends
           </h3>
           <canvas id="trendChart"></canvas>
@@ -294,40 +294,40 @@
             Upcoming Schedule
           </h3>
           <div class="space-y-4">
-            <div class="flex items-start border-b border-indigo-800 pb-4">
-              <div class="bg-purple-900/50 p-2 rounded-lg mr-4">
+            <div class="flex items-start border-b border-blue-800 pb-4">
+              <div class="bg-blue-900/50 p-2 rounded-lg mr-4">
                 <div class="text-center font-bold text-lg">18</div>
                 <div class="text-sm">JUN</div>
               </div>
               <div>
                 <div class="font-bold">Summer Fest - Los Angeles</div>
-                <div class="text-sm text-indigo-300">8:00 PM @ Hollywood Bowl</div>
+                <div class="text-sm text-blue-300">8:00 PM @ Hollywood Bowl</div>
                 <div class="flex mt-2">
                   <span class="stage-booked px-2 py-1 text-xs rounded-full bg-emerald-900/30">Confirmed</span>
                 </div>
               </div>
             </div>
-            <div class="flex items-start border-b border-indigo-800 pb-4">
-              <div class="bg-purple-900/50 p-2 rounded-lg mr-4">
+            <div class="flex items-start border-b border-blue-800 pb-4">
+              <div class="bg-blue-900/50 p-2 rounded-lg mr-4">
                 <div class="text-center font-bold text-lg">24</div>
                 <div class="text-sm">JUN</div>
               </div>
               <div>
                 <div class="font-bold">Memphis Homecoming Show</div>
-                <div class="text-sm text-indigo-300">9:30 PM @ Minglewood Hall</div>
+                <div class="text-sm text-blue-300">9:30 PM @ Minglewood Hall</div>
                 <div class="flex mt-2">
-                  <span class="stage-negotiate px-2 py-1 text-xs rounded-full bg-purple-900/30">Contract Sent</span>
+                  <span class="stage-negotiate px-2 py-1 text-xs rounded-full bg-blue-900/30">Contract Sent</span>
                 </div>
               </div>
             </div>
             <div class="flex items-start">
-              <div class="bg-purple-900/50 p-2 rounded-lg mr-4">
+              <div class="bg-blue-900/50 p-2 rounded-lg mr-4">
                 <div class="text-center font-bold text-lg">02</div>
                 <div class="text-sm">JUL</div>
               </div>
               <div>
                 <div class="font-bold">Independence Day Festival</div>
-                <div class="text-sm text-indigo-300">7:00 PM @ Santa Monica Pier</div>
+                <div class="text-sm text-blue-300">7:00 PM @ Santa Monica Pier</div>
                 <div class="flex mt-2">
                   <span class="stage-contact px-2 py-1 text-xs rounded-full bg-amber-900/30">Awaiting Response</span>
                 </div>
@@ -342,7 +342,7 @@
     <section id="prospects" class="section hidden">
       <div class="mb-8">
         <h2 class="text-3xl font-bold">Prospect Management</h2>
-        <p class="text-indigo-200">Manage your venue and promoter contacts</p>
+        <p class="text-blue-200">Manage your venue and promoter contacts</p>
       </div>
       
       <div class="card p-6 mb-6">
@@ -355,9 +355,9 @@
         </div>
         
         <div class="csv-upload-area" onclick="document.getElementById('csv-upload').click()">
-          <span class="material-symbols-outlined text-4xl text-purple-400 mb-2">upload_file</span>
-          <p class="text-indigo-300">Click to upload CSV file</p>
-          <p class="text-sm text-indigo-400 mt-1">CSV format: Name, Email, Venue, Location, Status</p>
+          <span class="material-symbols-outlined text-4xl text-blue-400 mb-2">upload_file</span>
+          <p class="text-blue-300">Click to upload CSV file</p>
+          <p class="text-sm text-blue-400 mt-1">CSV format: Name, Email, Venue, Location, Status</p>
           <input type="file" id="csv-upload" class="hidden" accept=".csv" onchange="handleCSVUpload(event)">
         </div>
         
@@ -404,7 +404,7 @@
     <section id="content" class="section hidden">
       <div class="mb-8">
         <h2 class="text-3xl font-bold">Content Generator</h2>
-        <p class="text-indigo-200">Create engaging content with AI assistance</p>
+        <p class="text-blue-200">Create engaging content with AI assistance</p>
       </div>
       
       <div class="card p-6">
@@ -427,10 +427,10 @@
         <div class="mb-6">
           <label class="form-label">Tone & Style</label>
           <div class="flex flex-wrap gap-2">
-            <button class="px-3 py-1 rounded-full bg-purple-900/50">Professional</button>
-            <button class="px-3 py-1 rounded-full bg-purple-900/50">Casual</button>
-            <button class="px-3 py-1 rounded-full bg-purple-900/50">Energetic</button>
-            <button class="px-3 py-1 rounded-full bg-purple-900/50">Humorous</button>
+            <button class="px-3 py-1 rounded-full bg-blue-900/50">Professional</button>
+            <button class="px-3 py-1 rounded-full bg-blue-900/50">Casual</button>
+            <button class="px-3 py-1 rounded-full bg-blue-900/50">Energetic</button>
+            <button class="px-3 py-1 rounded-full bg-blue-900/50">Humorous</button>
           </div>
         </div>
         
@@ -440,7 +440,7 @@
         </button>
         
         <div class="gemini-response hidden" id="content-response">
-          <p class="text-indigo-200">Your generated content will appear here...</p>
+          <p class="text-blue-200">Your generated content will appear here...</p>
         </div>
       </div>
     </section>
@@ -449,7 +449,7 @@
     <section id="epk" class="section hidden">
       <div class="mb-8">
         <h2 class="text-3xl font-bold">EPK Generator</h2>
-        <p class="text-indigo-200">Create professional electronic press kits</p>
+        <p class="text-blue-200">Create professional electronic press kits</p>
       </div>
       
       <div class="card p-6">
@@ -458,8 +458,8 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <div class="file-upload mb-4" onclick="document.getElementById('cover-upload').click()">
-                <span class="material-symbols-outlined text-4xl text-purple-400 mb-2">image</span>
-                <p class="text-indigo-300">Upload Custom Cover</p>
+                <span class="material-symbols-outlined text-4xl text-blue-400 mb-2">image</span>
+                <p class="text-blue-300">Upload Custom Cover</p>
                 <input type="file" id="cover-upload" class="hidden" accept="image/*" onchange="previewCover(event)">
               </div>
             </div>
@@ -484,13 +484,13 @@
             </div>
             <div>
               <label class="form-label">Genre</label>
-              <input type="text" class="form-input" placeholder="e.g. Blues Rock" value="Blues Rock">
+              <input type="text" class="form-input" placeholder="e.g. Hip-Hop" value="Hip-Hop">
             </div>
           </div>
           
           <div class="mb-6">
             <label class="form-label">Artist Bio</label>
-            <textarea class="form-input h-32" placeholder="Tell your story...">Memphis-born artist blending Delta blues with modern rock. Known for electrifying live performances and soulful vocals.</textarea>
+            <textarea class="form-input h-32" placeholder="Tell your story...">Memphis-born rapper blending Southern hip-hop with West Coast vibes. Known for raw lyricism and electrifying live performances.</textarea>
           </div>
           
           <div class="mb-6">
@@ -519,9 +519,9 @@
             <div>
               <label class="form-label">Press Photos</label>
               <div class="file-upload" onclick="document.getElementById('photo-upload').click()">
-                <span class="material-symbols-outlined text-4xl text-purple-400 mb-2">cloud_upload</span>
-                <p class="text-indigo-300">Click to upload photos</p>
-                <p class="text-sm text-indigo-400 mt-1">JPG or PNG, max 5MB each</p>
+                <span class="material-symbols-outlined text-4xl text-blue-400 mb-2">cloud_upload</span>
+                <p class="text-blue-300">Click to upload photos</p>
+                <p class="text-sm text-blue-400 mt-1">JPG or PNG, max 5MB each</p>
                 <input type="file" id="photo-upload" class="hidden" multiple>
               </div>
             </div>
@@ -530,8 +530,8 @@
               <label class="form-label">Press Releases</label>
               <div class="file-upload" onclick="document.getElementById('press-upload').click()">
                 <span class="material-symbols-outlined text-4xl text-amber-400 mb-2">description</span>
-                <p class="text-indigo-300">Click to upload documents</p>
-                <p class="text-sm text-indigo-400 mt-1">PDF or DOCX, max 10MB each</p>
+                <p class="text-blue-300">Click to upload documents</p>
+                <p class="text-sm text-blue-400 mt-1">PDF or DOCX, max 10MB each</p>
                 <input type="file" id="press-upload" class="hidden" multiple>
               </div>
             </div>
@@ -561,10 +561,10 @@
     <section id="trends" class="section hidden">
       <div class="mb-8">
         <h2 class="text-3xl font-bold">Music Trends & Insights</h2>
-        <p class="text-indigo-200">Analyze data and discover opportunities</p>
+        <p class="text-blue-200">Analyze data and discover opportunities</p>
       </div>
       
-      <div class="flex mb-6 border-b border-indigo-800">
+      <div class="flex mb-6 border-b border-blue-800">
         <button class="tab-btn active" onclick="showTab('seo-tab')">SEO Tools</button>
         <button class="tab-btn" onclick="showTab('insights-tab')">Data Insights</button>
         <button class="tab-btn" onclick="showTab('social-tab')">Social Analytics</button>
@@ -575,11 +575,11 @@
           <div class="mb-6">
             <label class="form-label">SEO Keyword Generator</label>
             <div class="flex mb-4">
-              <input type="text" id="keyword-input" class="form-input mr-2" placeholder="Enter topic or phrase..." value="blues rock music">
+              <input type="text" id="keyword-input" class="form-input mr-2" placeholder="Enter topic or phrase..." value="hip-hop music">
               <button class="btn-primary px-4" onclick="generateKeywords()">Generate</button>
             </div>
             <div class="gemini-response" id="keyword-results">
-              <p class="text-indigo-200">Your SEO keywords will appear here...</p>
+              <p class="text-blue-200">Your SEO keywords will appear here...</p>
             </div>
           </div>
           
@@ -591,7 +591,7 @@
               Analyze SEO
             </button>
             <div class="gemini-response mt-4 hidden" id="seo-analysis">
-              <p class="text-indigo-200">SEO analysis results will appear here...</p>
+              <p class="text-blue-200">SEO analysis results will appear here...</p>
             </div>
           </div>
         </div>
@@ -603,9 +603,9 @@
           <div class="mb-6">
             <label class="form-label">Upload Data for Analysis (CSV)</label>
             <div class="file-upload" onclick="document.getElementById('data-upload').click()">
-              <span class="material-symbols-outlined text-4xl text-purple-400 mb-2">upload</span>
-              <p class="text-indigo-300">Click to upload data file</p>
-              <p class="text-sm text-indigo-400 mt-1">CSV format with audience data</p>
+              <span class="material-symbols-outlined text-4xl text-blue-400 mb-2">upload</span>
+              <p class="text-blue-300">Click to upload data file</p>
+              <p class="text-sm text-blue-400 mt-1">CSV format with audience data</p>
               <input type="file" id="data-upload" class="hidden" accept=".csv">
             </div>
           </div>
@@ -616,7 +616,7 @@
           </button>
           
           <div class="gemini-response hidden" id="insights-results">
-            <p class="text-indigo-200">Data insights will appear here...</p>
+            <p class="text-blue-200">Data insights will appear here...</p>
           </div>
         </div>
       </div>
@@ -626,7 +626,7 @@
     <section id="map-section" class="section hidden">
       <div class="mb-6">
         <h2 class="text-3xl font-bold mb-2">Booking Map</h2>
-        <p class="text-indigo-200">Track prospects and bookings across your territories</p>
+        <p class="text-blue-200">Track prospects and bookings across your territories</p>
       </div>
       
       <div class="card overflow-hidden">
@@ -735,15 +735,15 @@
           datasets: [{
             label: 'Spotify Streams',
             data: [12000, 19000, 15000, 22000, 18000, 25000],
-            borderColor: '#c084fc',
-            backgroundColor: 'rgba(192, 132, 252, 0.1)',
+            borderColor: '#64b5f6',
+            backgroundColor: 'rgba(100, 181, 246, 0.1)',
             tension: 0.3,
             fill: true
           }, {
             label: 'Instagram Followers',
             data: [8000, 10000, 12000, 11000, 14000, 16000],
-            borderColor: '#60a5fa',
-            backgroundColor: 'rgba(96, 165, 250, 0.1)',
+            borderColor: '#4fc3f7',
+            backgroundColor: 'rgba(79, 195, 247, 0.1)',
             tension: 0.3,
             fill: true
           }]
@@ -752,18 +752,18 @@
           responsive: true,
           plugins: {
             legend: {
-              labels: { color: '#e2e8f0' }
+              labels: { color: '#e0e0e0' }
             }
           },
           scales: {
             y: {
               beginAtZero: true,
-              grid: { color: 'rgba(148, 163, 184, 0.1)' },
-              ticks: { color: '#94a3b8' }
+              grid: { color: 'rgba(176, 176, 176, 0.1)' },
+              ticks: { color: '#b0b0b0' }
             },
             x: {
-              grid: { color: 'rgba(148, 163, 184, 0.1)' },
-              ticks: { color: '#94a3b8' }
+              grid: { color: 'rgba(176, 176, 176, 0.1)' },
+              ticks: { color: '#b0b0b0' }
             }
           }
         }
@@ -809,19 +809,17 @@
       const responseArea = document.getElementById('content-response');
       
       responseArea.classList.remove('hidden');
-      responseArea.innerHTML = '<p class="text-indigo-200">Generating content with Gemini API...</p>';
+      responseArea.innerHTML = '<p class="text-blue-200">Generating content with Gemini API...</p>';
       
       // Simulated API call
       setTimeout(() => {
         responseArea.innerHTML = `
           <p class="font-bold text-lg mb-2">Social Media Post:</p>
-          <p>🎸 Memphis, get ready! I'm coming home for a special show at Minglewood Hall on June 24th. 
-          Expect a night of raw blues energy and new tracks from the upcoming album. 
-          Tickets on sale now - link in bio! #MemphisMusic #BluesRock #LiveMusic</p>
+          <p>🔥 Memphis stand up! Homecoming show at Minglewood Hall June 24th. Bringing that West Coast flow with Memphis soul. Tickets moving fast - link in bio! #MemphisRap #HipHop #LiveShow</p>
           <div class="mt-4 flex space-x-2">
-            <button class="px-3 py-1 rounded bg-purple-700">Copy Text</button>
-            <button class="px-3 py-1 rounded bg-purple-700">Generate Image</button>
-            <button class="px-3 py-1 rounded bg-purple-700">Schedule Post</button>
+            <button class="px-3 py-1 rounded bg-blue-700">Copy Text</button>
+            <button class="px-3 py-1 rounded bg-blue-700">Generate Image</button>
+            <button class="px-3 py-1 rounded bg-blue-700">Schedule Post</button>
           </div>
         `;
       }, 1500);
@@ -834,11 +832,11 @@
       if (!prompt) return;
       
       preview.style.display = 'block';
-      preview.src = 'https://placehold.co/600x200/1e1b4b/c084fc?text=Generating+Cover+Image...';
+      preview.src = 'https://placehold.co/600x200/212121/1e88e5?text=Generating+Cover+Image...';
       
       // Simulated API call
       setTimeout(() => {
-        preview.src = 'https://placehold.co/600x200/1e1b4b/c084fc?text=Generated+EPK+Cover';
+        preview.src = 'https://placehold.co/600x200/212121/1e88e5?text=Generated+EPK+Cover';
       }, 2000);
     }
 
@@ -846,22 +844,21 @@
       const topic = document.getElementById('keyword-input').value;
       const results = document.getElementById('keyword-results');
       
-      results.innerHTML = '<p class="text-indigo-200">Generating SEO keywords with Gemini API...</p>';
+      results.innerHTML = '<p class="text-blue-200">Generating SEO keywords with Gemini API...</p>';
       
       // Simulated API call
       setTimeout(() => {
         results.innerHTML = `
-          <p class="font-bold mb-2">Top Keywords for "blues rock music":</p>
+          <p class="font-bold mb-2">Top Keywords for "hip-hop music":</p>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 rounded-full bg-purple-900/50">modern blues rock</span>
-            <span class="px-3 py-1 rounded-full bg-purple-900/50">Memphis blues artists</span>
-            <span class="px-3 py-1 rounded-full bg-purple-900/50">electric blues guitar</span>
-            <span class="px-3 py-1 rounded-full bg-purple-900/50">soulful rock vocals</span>
-            <span class="px-3 py-1 rounded-full bg-purple-900/50">live blues performance</span>
-            <span class="px-3 py-1 rounded-full bg-purple-900/50">contemporary blues</span>
-            <span class="px-3 py-1 rounded-full bg-purple-900/50">rock blues fusion</span>
+            <span class="px-3 py-1 rounded-full bg-blue-900/50">Memphis rap scene</span>
+            <span class="px-3 py-1 rounded-full bg-blue-900/50">West Coast hip-hop</span>
+            <span class="px-3 py-1 rounded-full bg-blue-900/50">underground rap</span>
+            <span class="px-3 py-1 rounded-full bg-blue-900/50">southern hip-hop artists</span>
+            <span class="px-3 py-1 rounded-full bg-blue-900/50">LA rap concerts</span>
+            <span class="px-3 py-1 rounded-full bg-blue-900/50">independent hip-hop</span>
           </div>
-          <p class="mt-4"><span class="font-bold">SEO Tip:</span> Include location-based terms like "Memphis music scene" to attract local fans.</p>
+          <p class="mt-4"><span class="font-bold">SEO Tip:</span> Include location-based terms like "LA rap" to attract local fans.</p>
         `;
       }, 1500);
     }
@@ -869,21 +866,21 @@
     function generateInsights() {
       const results = document.getElementById('insights-results');
       results.classList.remove('hidden');
-      results.innerHTML = '<p class="text-indigo-200">Analyzing data with Gemini API...</p>';
+      results.innerHTML = '<p class="text-blue-200">Analyzing data with Gemini API...</p>';
       
       // Simulated API call
       setTimeout(() => {
         results.innerHTML = `
           <p class="font-bold text-lg mb-2">Audience Insights:</p>
           <ul class="list-disc pl-5 space-y-2">
-            <li>Your core audience is 25-34 year olds in major US cities (LA, NYC, Chicago)</li>
-            <li>Top streaming cities: Memphis, Nashville, Los Angeles, Austin, Chicago</li>
-            <li>Engagement peaks on Instagram between 7-9 PM local time</li>
-            <li>Fans respond best to behind-the-scenes content and live performance clips</li>
-            <li>Opportunity: Expand reach in European markets where blues rock has growing popularity</li>
+            <li>Your core audience is 18-30 year olds in urban areas (LA, Memphis, Atlanta)</li>
+            <li>Top streaming cities: Los Angeles, Memphis, Atlanta, Chicago, Houston</li>
+            <li>Engagement peaks on Instagram between 8-11 PM local time</li>
+            <li>Fans respond best to freestyle videos and behind-the-scenes content</li>
+            <li>Opportunity: Collaborate with West Coast producers to expand reach</li>
           </ul>
           <div class="mt-4">
-            <button class="px-3 py-1 rounded bg-purple-700">Export Report</button>
+            <button class="px-3 py-1 rounded bg-blue-700">Export Report</button>
           </div>
         `;
       }, 2000);
